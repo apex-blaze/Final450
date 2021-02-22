@@ -70,13 +70,35 @@ int maxRec(int arr[],int size){
 
 
 
+
+// 4. Sort an array of 0s,1s and 2s
+
+// Done using Dutch Flag Algo - O(n)
+void sort012s(int arr[],int size){
+    //mid to hi is the region we are about to shrink
+    int lo=0,mid=0,hi=size-1;
+    while(mid<=hi){
+        if(arr[mid] == 0){
+            swap(arr[lo],arr[mid]);
+            lo++; mid++;
+        }
+        else if(arr[mid] == 1){
+            mid++;
+        }
+        else if(arr[mid] == 2){
+            swap(arr[hi],arr[mid]);
+            hi--;
+        }
+    }
+}
+
 // 5. Move all negative elements to one side of the array
 
 // A. Partition Algo - O(n)
 void shiftNegatives_A(int arr[],int size){
     int j = -1,pivot=0;
     for(int i=0;i<size;++i){
-        if(arr[i]<=pivot){
+        if(arr[i]<pivot){
             j++;
             swap(arr[i],arr[j]);
         }
@@ -103,14 +125,81 @@ void shiftNegatives_B(int arr[],int size){
     }
 }
 
+// 6. Union and Intersection of two sorted arrays
+vector <int> unionOfArrays(int a[],int b[],int m,int n){
+    vector<int> v;
+    int i=0,j=0;
+    while(i<m && j<n){
+        if(a[i] < b[j]){
+            if(a[i]!=a[i+1]){
+                v.push_back(a[i]);
+            }
+            i++;
+        }
+        else if(b[j] < a[i]){
+            if(b[j]!=b[j+1]){
+                v.push_back(b[j]);
+            }
+            j++;
+        }
+        else{
+           if(a[i]!=a[i+1] && b[j]!=b[j+1]){
+               v.push_back(a[i]);
+               i++; j++;
+           }
+           else{
+               if(b[j] == b[j+1]) j++;
+               if(a[i] == a[i+1]) i++;
+           }
+        }
+    }
+    while(i<m){
+        if(a[i]!=a[i+1]){
+            v.push_back(a[i]);
+        }
+        i++;
+    }
+    while(j<n){
+        if(b[j]!=b[j+1] ){
+            v.push_back(b[j]);
+        }
+        j++;
+    }
+    return v;
+}
+
+vector <int> intersectionOfArrays(int a[],int b[],int m ,int n){
+    vector <int> v;
+    int i=0,j=0;
+    while(i<m && j<n){
+        if(a[i] < b[j]) i++;
+        else if(b[j] < a[i]) j++;
+        else{
+            if(a[i]!=a[i+1] && b[j]!=b[j+1]){
+                v.push_back(a[i]);
+                i++; j++;
+            }
+            else{
+                if(b[j] == b[j+1]) j++;
+                if(a[i] == a[i+1]) i++;
+            }
+
+        }
+    }
+    return v;
+}
+
 int main(){
-    int a[] = {-12, 11, -13, -5, 6, -7, 5, -3, -6};
-    int size = sizeof(a)/sizeof(a[0]);
+    int a[] = {2,2,5,5, 5, 6};
+    int m = sizeof(a)/sizeof(a[0]);
+    int b[] = {4,4, 6,6,6, 8, 10}; 
+    int n = sizeof(b)/sizeof(b[0]);
     // reverseArrayItr(a,4);
     // reverseArrayRecursive(a,4);
     // cout<<minItr(a,4)<<endl;
     // shiftNegatives_A(a,size);
-    printArray(a,size);
+    // sort012s(a,size);
+    // printArray(a,size);
     
 
 }
