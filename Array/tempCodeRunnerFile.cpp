@@ -1,1 +1,0 @@
-vector <int> v = unionOfArrays(a,b,m,n);
