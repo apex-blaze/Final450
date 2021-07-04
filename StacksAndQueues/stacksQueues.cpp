@@ -149,6 +149,88 @@ class TwoStack{
 	
 };
 
+// Q.4 Implement Middle Element Stack 
+class MidStack{
+	class DLL{
+		public:
+		int data;
+		DLL *prev,*next;
+		DLL(int y){
+			data = y;
+			prev = NULL;
+			next = NULL;
+		}
+	};
+	int size;
+	DLL *top,*mid;
+	public:
+	MidStack(){
+		size = 0;
+		top = NULL;
+		mid = NULL;
+	}
+
+	void push(int x){
+		DLL *newNode = new DLL(x);
+		newNode->next = top;
+		top = newNode;
+		size++;
+		if(size == 1){
+			mid = top;
+			return;
+		}
+		if(size%2 == 0){
+			mid = mid->prev;
+		}
+	}
+
+	int pop(){
+		if(top == NULL){
+			return INT_MIN;
+		}
+		int ans;
+		if(top->next == NULL){
+			ans = top->data;
+			delete top;
+			top == NULL; mid == NULL;
+			size--;
+			return ans;
+		}
+		DLL *temp = top;
+		ans = temp->data;
+		size--;
+		if(size%2){
+			mid = mid->next;
+		}
+		top = top->next;
+		delete temp;
+		return ans;
+	}
+	int middle(){
+		if(mid==NULL){
+			return INT_MIN;
+		}
+		return mid->data;
+	}
+
+	int delMiddle(){
+		if(mid==NULL)
+			return INT_MIN;
+		int deleted = mid->data;
+		size--;
+		if(mid->next == NULL && mid->prev == NULL){
+			mid == NULL;
+			return deleted;
+		}
+		if(size%2 == 0){
+			mid = mid->prev;
+		}else{
+			mid = mid->next;
+		}
+		return deleted;
+	}
+
+};
 
 int main(){
 	
