@@ -232,6 +232,50 @@ class MidStack{
 
 };
 
+// Q.5 Implement K stacks in an array
+class NStacks{
+	int *topOfStack;
+	int *arr;
+	int *next; int free;
+	int capacity,stacks;
+	public:
+	NStacks(int n=10,int k=3){
+		capacity = n; stacks = k;
+		topOfStack = new int[k];
+		fill_n(topOfStack,k,-1);
+		arr = new int[n];
+		for(int i=0;i<n-1;i++){
+			next[i] = i+1;
+		}
+		next[n-1] = -1;
+		free = 0;
+	}
+	void push(int k,int x){
+		if(k<0 || k>=stacks)
+			 return;
+		if(free < 0) // Stack Overflow
+			return;
+		int currIndex = free;
+		free = next[currIndex];
+		arr[currIndex] = x;
+		next[currIndex] = topOfStack[k];
+		topOfStack[k] = currIndex;
+	}
+
+	int pop(int k){
+		if(k<0 || k>=stacks)
+			return INT_MIN;
+		if(topOfStack[k] == -1) // Stack underflow
+			return INT_MIN;
+
+		int currIndex = topOfStack[k];
+		int ans = arr[currIndex];
+		topOfStack[k] = next[currIndex];
+		next[currIndex] = free;
+		free = currIndex;
+	}
+};
+
 int main(){
 	
     return 0;
