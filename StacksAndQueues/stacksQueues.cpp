@@ -113,6 +113,42 @@ class Queue{
 	}
 };
 
+// Q.3 Implement 2 Stacks in an array
+
+class TwoStack{
+	int top1,top2,capacity;
+	int *arr;
+	public:
+	TwoStack(int n=10){
+		top1 = -1; top2 = n;
+		arr = new int[n];
+		capacity = n;
+	}
+	void push1(int x){
+		if(top1 >= top2-1){
+			return;
+		}
+		arr[++top1] = x;
+	}
+	void push2(int x){
+		if(top2 <= top1+1){
+			return;
+		}
+		arr[--top2] = x;
+	}
+	int pop1(){
+		if(top1 == -1)
+			return INT_MIN;
+		return arr[top1--];
+	}
+	int pop2(){
+		if(top2 == capacity)
+			return INT_MIN;
+		return arr[top2++];
+	}
+	
+};
+
 
 int main(){
 	
