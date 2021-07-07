@@ -5,13 +5,12 @@
 
 using namespace std;
 
-template <typename T=int>
 class graph{
 	// Q.1 Create a graph, print it
 	public:
-	map <T,list<pair<T,int>>> adjList;
+	map <int,list<pair<int,int>>> adjList;
 
-	void addEdge(T u,T v,int dist=1,bool bidirec=1){
+	void addEdge(int u,int v,int dist=1,bool bidirec=1){
 		adjList[u].push_back(make_pair(v,dist));
 		if(bidirec){
 			adjList[v].push_back(make_pair(u,dist));
@@ -28,12 +27,12 @@ class graph{
 		}
 	}
 	// Q.2 BFS Algo
-	void bfs(T src){
-		map<T,bool> visited;
-		queue<T> q;
+	void bfs(int src){
+		map<int,bool> visited;
+		queue<int> q;
 		q.push(src);
 		while(!q.empty()){
-			T node = q.front();
+			int node = q.front();
 			q.pop();
 			if(!visited[node]){
 				cout<<node<<"->";
@@ -48,7 +47,7 @@ class graph{
 	}
 
 	// Q.3 DFS Algo
-	void dfsHelper(T u,map<T,bool> &visited){
+	void dfsHelper(int u,map<int,bool> &visited){
 		cout<<u<<"->";
 		visited[u] = true;
 		for(auto i:adjList[u]){
@@ -57,15 +56,18 @@ class graph{
 		}
 	}
 
-	void dfs(T src){
-		map<T,bool> visited;
+	void dfs(int src){
+		map<int,bool> visited;
 		dfsHelper(src,visited);
 	}
+	// Q.3 Detect cycle in directed graph
+
+	
 
 	// Q.4 Detect Cycle in Undirected Graph
-
+	/****************** Using DFS*********************/
 	//Helper Function
-	bool isUnCycleDFS(T node,map<T,bool> &visited,T parent){
+	bool isUnCycleDFS(int node,map<int,bool> &visited,int parent){
 		visited[node] = true;
 		for(auto i:adjList[node]){
 			if(i.first != parent){
@@ -79,14 +81,50 @@ class graph{
 	}
 	// Driver Function
 	bool undirectedCycleDFS(){
-		map<T,bool> visited; 
-		T parent;
+		map<int,bool> visited; 
+		int parent=int(-1);
+		// cout<<parent<<endl;
 		for(auto i:adjList){
 			if(!visited[i.first] && isUnCycleDFS(i.first,visited,parent))
 				return true;
 		}
 		return false;
 	}
+
+		/****************** Using BFS*********************/
+	bool isUnCycleBFS(int src,map<int,bool>&visited){
+		map<int,int> parent;
+		parent[src] = -1;
+		queue<int> q;
+		visited[src] = true;
+		q.push(src);
+
+		while(!q.empty()){
+			int node = q.front();
+			q.pop();
+			for(auto i :adjList[node]){
+				if(!visited[i.first]){
+					visited[i.first] = true;
+					q.push(i.first);
+					parent[i.first] = node;
+				}else if(parent[node] != i.first){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	// Driver Function
+	bool undirectedCycleBFS(){
+		map<int,bool> visited;
+		for(auto i:adjList){
+			if(!visited[i.first] && isUnCycleBFS(i.first,visited))
+				return true;
+		}
+		return false;
+	}
+
 
 };
 
@@ -114,12 +152,24 @@ int main(){
 
 	// auto x = g.adjList.begin()->first;
 	// g.dfs(x);
-	graph<int> g1;
-	g1.addEdge(1, 0);
-    g1.addEdge(0, 2);
-    g1.addEdge(2, 1);
-    g1.addEdge(0, 3);
-    g1.addEdge(3, 4);
-	cout<<g1.undirectedCycleDFS()<<endl;
+	// graph g1;
+	// g1.addEdge(1, 0);
+    // g1.addEdge(0, 2);
+    // g1.addEdge(2, 1);
+    // g1.addEdge(0, 3);
+    // g1.addEdge(3, 4);
+	// cout<<g1.undirectedCycleBFS()<<endl; // 1
+
+	// graph g2;
+    // g2.addEdge(0, 1);
+    // g2.addEdge(1, 2);
+	// cout<<g2.undirectedCycleBFS()<<endl; // 0
+
+	// graph g1;
+	// g1.addEdge(1, 0);
+	// g1.addEdge(4, 1);
+	// g1.addEdge(2, 0);
+	// g1.addEdge(4, 2);
+	// cout<<g1.undirectedCycleBFS()<<endl; // 1
     return 0;
 }
