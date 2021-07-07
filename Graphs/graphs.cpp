@@ -28,10 +28,10 @@ class graph{
 		}
 	}
 	// Q.2 BFS Algo
-	void bfs(T u){
+	void bfs(T src){
 		map<T,bool> visited;
 		queue<T> q;
-		q.push(u);
+		q.push(src);
 		while(!q.empty()){
 			T node = q.front();
 			q.pop();
@@ -45,6 +45,21 @@ class graph{
 			}
 			// push nulls here if u want levels
 		}
+	}
+
+	// Q.3 DFS Algo
+	void dfsHelper(T u,map<T,bool> &visited){
+		cout<<u<<"->";
+		visited[u] = true;
+		for(auto i:adjList[u]){
+			if(!visited[i.first])
+				dfsHelper(i.first,visited);
+		}
+	}
+
+	void dfs(T src){
+		map<T,bool> visited;
+		dfsHelper(src,visited);
 	}
 
 
@@ -71,6 +86,9 @@ int main(){
 
 	// auto i = g.adjList.begin()->first;
 	// g.bfs(i);
+
+	// auto x = g.adjList.begin()->first;
+	// g.dfs(x);
 
     return 0;
 }
