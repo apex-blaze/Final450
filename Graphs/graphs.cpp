@@ -1,11 +1,13 @@
 #include<iostream>
 #include<map>
 #include<list>
+#include<queue>
 
 using namespace std;
 
 template <typename T>
 class graph{
+	// Q.1 Create a graph, print it
 	public:
 	map <T,list<pair<T,int>>> adjList;
 
@@ -25,7 +27,29 @@ class graph{
 			cout<<endl;
 		}
 	}
+	// Q.2 BFS Algo
+	void bfs(T u){
+		map<T,bool> visited;
+		queue<T> q;
+		q.push(u);
+		while(!q.empty()){
+			T node = q.front();
+			q.pop();
+			if(!visited[node]){
+				cout<<node<<"->";
+				visited[node]=true;
+			}
+			for(auto i: adjList[node]){
+				if(!visited[i.first])
+					q.push(i.first);
+			}
+			// push nulls here if u want levels
+		}
+	}
+
+
 };
+
 
 int main(){
 	// graph<char> g;
@@ -44,6 +68,9 @@ int main(){
 	// g.addEdge('5', '4',10, 0);
 	// g.addEdge('7', '6',1, 0);
 	// g.printGraph();
+
+	// auto i = g.adjList.begin()->first;
+	// g.bfs(i);
 
     return 0;
 }
