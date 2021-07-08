@@ -179,7 +179,35 @@ class graph{
 		}
 		return false;
 	}
-
+	// Q.13 Topological Sort
+	vector<int> topologicalSort(){
+		map<int,int> indeg;
+		queue<int>q;
+		vector<int> topologicalOrder;
+		for(auto i:adjList){
+			for(auto j:i.second){
+				indeg[j.first]++;
+			}
+		}
+		for(auto x:indeg){
+			if(x.second==0){
+				q.push(x.first);
+			}
+		}
+		int cnt=0;
+		while(!q.empty()){
+			int node = q.front();
+			q.pop();
+			topologicalOrder.push_back(node);
+			for(auto i:adjList[node]){
+				if(--indeg[i.first]==0){
+					q.push(i.first);
+				}
+			}
+			cnt++;
+		}
+		return topologicalOrder;
+	}
 
 };
 
