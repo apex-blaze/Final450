@@ -60,11 +60,66 @@ class graph{
 		map<int,bool> visited;
 		dfsHelper(src,visited);
 	}
-	// Q.3 Detect cycle in directed graph
+	// Q.4 Detect cycle in directed graph
+	/****************** Using DFS ********************/
+	bool isDirCycleDFS(int src,map<int,bool>&visited,map<int,bool>recStack){
+		visited[src] = true;
+		recStack[src] = true;
+		for(auto i:adjList[src]){
+			if(!visited[i.first]){
+				return isDirCycleDFS(i.first,visited,recStack);
+			}else if(recStack[i.first]){
+				return true;
+			}
+		}
+		recStack[src] = false;
+		return false;
+	}
 
+	bool directedCycleDFS(){
+		map<int,bool> visited;
+		map<int,bool> recStack;
+		for(auto i:adjList){
+			if(!visited[i.first] && isDirCycleDFS(i.first,visited,recStack)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/***************** Using BFS ********************/
+	bool directedCycleBFS(){
+		map<int,int> indeg;
+		queue<int>q;
+		for(auto i:adjList){
+			for(auto j:i.second){
+				indeg[j.first]++;
+			}
+		}
+		for(auto x:indeg){
+			if(x.second==0){
+				q.push(x.first);
+			}
+		}
+		vector<int> topologicalOrder;
+		int cnt=0;
+		while(!q.empty()){
+			int node = q.front();
+			q.pop();
+			topologicalOrder.push_back(node);
+			for(auto i:adjList[node]){
+				if(--indeg[i.first]==0){
+					q.push(i.first);
+				}
+			}
+			cnt++;
+		}
+		if(cnt!=adjList.size()) return true;
+		else return false;
+	}
 	
 
-	// Q.4 Detect Cycle in Undirected Graph
+	// Q.5 Detect Cycle in Undirected Graph
 	/****************** Using DFS*********************/
 	//Helper Function
 	bool isUnCycleDFS(int node,map<int,bool> &visited,int parent){
@@ -171,5 +226,28 @@ int main(){
 	// g1.addEdge(2, 0);
 	// g1.addEdge(4, 2);
 	// cout<<g1.undirectedCycleBFS()<<endl; // 1
+
+	// graph g;
+    // g.addEdge(0, 1,0,0);
+    // g.addEdge(0, 2,0,0);
+    // g.addEdge(1, 2,0,0);
+    // g.addEdge(2, 0,0,0);
+    // g.addEdge(2, 3,0,0);
+    // g.addEdge(3, 3,0,0);
+	// cout<<g.directedCycleDFS()<<endl; // 1
+
+	// graph g;
+    // g.addEdge(0, 1,0,0);
+    // g.addEdge(0, 2,0,0);
+    // g.addEdge(1, 2,0,0);
+	// cout<<g.directedCycleDFS()<<endl; // 0
+	// graph g;
+    // g.addEdge(0, 1,1,0);
+    // g.addEdge(1, 2,1,0);
+    // g.addEdge(2, 0,1,0);
+    // g.addEdge(3, 4,1,0);
+    // g.addEdge(4, 5,1,0);
+	// cout<<g.directedCycleBFS()<<endl; // 1
+
     return 0;
 }
