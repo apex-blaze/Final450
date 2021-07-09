@@ -2,6 +2,10 @@
 #include<map>
 #include<list>
 #include<queue>
+#include<vector>
+#include<algorithm>
+#include<climits>
+#include<set>
 
 using namespace std;
 
@@ -209,6 +213,95 @@ class graph{
 		return topologicalOrder;
 	}
 
+	/**************** DSU's Implementation ************/
+	vector<int> parent;
+	vector<int> size;
+	void make_set(int v){
+		parent[v] = v;
+		size[v] = 1;
+	}
+	int find_set(int v){
+		if(parent[v] == v) 
+			return v;
+		return parent[v] = find_set(parent[v]);
+	}
+	void union_sets(int a,int b){
+		a = find_set(a);
+		b = find_set(b);
+		if(a!=b){
+			if(size[a] <= size[b]){
+				parent[a] = b;
+				size[b]+=size[a];
+				size[a]=0;
+			}else{
+				parent[b] = a;
+				size[a]+=size[b];
+				size[b]=0;
+			}
+		}
+	}
+
+
+	// Q.18 Kruskal Algo
+	int kruskal(vector<vector<int>> edges){
+		sort(edges.begin(),edges.end()); int cost=0;
+		int nodes = edges.size() + 1;
+		for(int i=0;i<nodes;i++){
+			make_set(i);
+		}
+		for(auto i:edges){
+			int w = i[0];			
+			int u = i[1];			
+			int v = i[2];
+			int x = find_set(u);		
+			int y = find_set(v);
+			if(x == y)
+				continue;
+			else{
+				union_sets(u,v);
+				cost+=w;
+			}		
+		}
+	}
+
+	int primsBrute(int src,int v,int e){
+		int parent[v],key[v];
+		bool mst[v]; int cost=0;
+		for(int i=0;i<v;i++){
+			parent[i]=-1;
+			mst[i] = false;
+			key[i]=INT_MAX;
+		}
+		key[0]=0;
+		set<pair<int,int>> s;
+		s.insert({0,0}); //{wt,indx}
+
+
+		for(int i=0;i<v-1;i++){
+			auto x= *s.begin();
+			s.erase(x);
+			int u = x.second;
+			mst[u]=true;
+			for(auto it:adjList[u]){
+				int node = it.first;
+				int wt = it.second;
+				if(mst[node] == false && wt<key[node]){
+					key[node] = wt;
+					parent[node] = u;
+					s.insert({key[node],node});
+				}
+			}
+		}
+		for(int i=1;i<v;i++){
+			cout<<parent[i]<<"-"<<i<<","; // to print edges
+		}
+		for(int i=0;i<v;i++){
+			cost+=key[i];
+		}
+		return cost;
+	}
+
+
 };
 
 
@@ -277,5 +370,14 @@ int main(){
     // g.addEdge(4, 5,1,0);
 	// cout<<g.directedCycleBFS()<<endl; // 1
 
+	int v,e;
+	cin>>v>>e;
+	vector<vector<int>> edges;
+	for(int i=0;i<e;i++){
+		int u,v,w;
+		cin>>u>>v>>w;
+		edges.push_back({w,u,v});
+	}
+	
     return 0;
 }
