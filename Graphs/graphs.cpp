@@ -301,6 +301,34 @@ class graph{
 		return cost;
 	}
 
+	vector<int> dijkstra(int src,int v,int e){
+		vector<int> ans;
+		vector<int> dist(v,INT_MAX); dist[src] = 0;
+		set<pair<int,int>> s;
+		s.insert({0,src});
+		while(!s.empty()){
+			auto p = *(s.begin());
+			s.erase(p);
+			int wt = p.first;
+			int node = p.second;
+			for(auto it:adjList[node]){
+				if(dist[it.first] > it.second + dist[node]){
+					s.erase({dist[it.first],it.first});
+					dist[it.first] = dist[node] + it.second;
+					s.insert({dist[it.first],it.first});
+				}
+			}
+		}
+		for(int i=0;i<v;i++){
+			if(dist[i] < INT_MAX){
+				ans.push_back(dist[i]);
+			}else{
+				ans.push_back(-1);
+			}
+		}
+		
+	}
+
 
 };
 
@@ -370,14 +398,14 @@ int main(){
     // g.addEdge(4, 5,1,0);
 	// cout<<g.directedCycleBFS()<<endl; // 1
 
-	int v,e;
-	cin>>v>>e;
-	vector<vector<int>> edges;
-	for(int i=0;i<e;i++){
-		int u,v,w;
-		cin>>u>>v>>w;
-		edges.push_back({w,u,v});
-	}
+	// int v,e;
+	// cin>>v>>e;
+	// vector<vector<int>> edges;
+	// for(int i=0;i<e;i++){
+	// 	int u,v,w;
+	// 	cin>>u>>v>>w;
+	// 	edges.push_back({w,u,v});
+	// }
 	
     return 0;
 }
