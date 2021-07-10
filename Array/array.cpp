@@ -189,6 +189,19 @@ vector <int> intersectionOfArrays(int a[],int b[],int m ,int n){
     return v;
 }
 
+// Q.8 max Subarray sum (Kadane algo)
+int maxSubarraySum(int arr[], int n){
+     long long maxi = INT_MIN; long long sum=0;
+     for(int i=0;i<n;i++){
+         sum+=arr[i];
+         maxi = max(maxi,sum);
+         if(sum < 0){
+             sum=0;
+         }
+     }   
+    return maxi;
+} 
+
 int main(){
     int a[] = {2,2,5,5, 5, 6};
     int m = sizeof(a)/sizeof(a[0]);
