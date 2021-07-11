@@ -202,6 +202,54 @@ int maxSubarraySum(int arr[], int n){
     return maxi;
 } 
 
+
+// Q.9 Minimize the difference between heights
+int getMinDiff(int arr[], int n, int k) {
+    if(n==1) return 0;
+    sort(arr,arr+n);
+    int ans = arr[n-1]-arr[0];
+
+    // for i=0 as partition ans will be same as initial ans
+      for(int i=1;i<n;i++){
+          if(arr[i]>=k){
+              int maxi = max(arr[n-1]-k,arr[i-1]+k);
+              int mini = min(arr[0]+k,arr[i]-k);
+              ans = min(ans,maxi-mini);
+          }
+      } 
+      return ans; 
+}
+
+// Q. 11 Find duplicate in array of N+1 Integers
+int findDuplicate(vector<int>& nums) {
+    int fast = nums[nums[0]],slow=nums[0];
+    while(fast!=slow){
+        slow = nums[slow];
+        fast = nums[nums[fast]];
+    }    
+    fast=0;
+    while(fast != slow){
+        slow = nums[slow];
+        fast = nums[fast];
+    }
+    return slow;
+}
+
+// Q.12 Merge two sorted arrays in O(1) space and O(nlogn) time
+void merge(int arr1[], int arr2[], int n, int m) {
+    
+    int i=0,j=0,k=n-1;
+    while(i<=k && j<m){
+        if(arr1[i]<arr2[j]){
+            i++;
+        }else{
+            swap(arr2[j++],arr1[k--]);
+        }
+    }
+    sort(arr1,arr1+n);
+    sort(arr2,arr2+m);
+}
+
 int main(){
     int a[] = {2,2,5,5, 5, 6};
     int m = sizeof(a)/sizeof(a[0]);
@@ -213,6 +261,5 @@ int main(){
     // shiftNegatives_A(a,size);
     // sort012s(a,size);
     // printArray(a,size);
-    
 
 }
