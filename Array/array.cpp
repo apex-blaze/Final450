@@ -250,6 +250,27 @@ void merge(int arr1[], int arr2[], int n, int m) {
     sort(arr2,arr2+m);
 }
 
+
+// Q. 13 Kadane's Algo already done at Q.8
+
+// Q. 14  Merge intervals (overlapping or disjoint)
+vector<vector<int>> merge(vector<vector<int>>& intervals) {
+    if(intervals.empty()) return intervals;
+    vector<vector<int>> ans;
+    sort(intervals.begin(),intervals.end(),[](vector<int> v1,vector<int> v2){
+        return v1[0] < v2[0];
+    });
+    ans.push_back(intervals[0]);
+    for(int i=1;i<intervals.size();i++){
+        if(ans.back()[1] < intervals[i][0]){
+            ans.push_back(intervals[i]);
+        }else{
+            ans.back()[1] = max(ans.back()[1],intervals[i][1]);
+        }
+    }
+    return ans;
+}
+
 int main(){
     int a[] = {2,2,5,5, 5, 6};
     int m = sizeof(a)/sizeof(a[0]);
