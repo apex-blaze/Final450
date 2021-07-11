@@ -271,6 +271,29 @@ vector<vector<int>> merge(vector<vector<int>>& intervals) {
     return ans;
 }
 
+// Q.15 Next Permutation
+ void nextPermutation(vector<int>& nums) {
+        int k=-1,l;
+        int n = nums.size();
+        for(int i=n-2;i>=0;i--){
+            if(nums[i]<nums[i+1]){
+                k=i; break;
+            }
+        }
+        if(k==-1){
+            reverse(nums.begin(),nums.end());
+            return;
+        }
+        for(int i=n-1;i>=0;i--){
+            if(nums[i] > nums[k]){
+                l=i;
+                break;
+            }
+        }
+        swap(nums[k],nums[l]);
+        reverse(nums.begin()+k+1,nums.end());
+}
+
 int main(){
     int a[] = {2,2,5,5, 5, 6};
     int m = sizeof(a)/sizeof(a[0]);
