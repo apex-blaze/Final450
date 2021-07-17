@@ -294,6 +294,30 @@ vector<vector<int>> merge(vector<vector<int>>& intervals) {
         reverse(nums.begin()+k+1,nums.end());
 }
 
+// Q.16 Count Inversions
+long long int inversionCount(long long arr[], long long N){
+        long long b[N]; long long ans=0;
+        for(long long i=0;i<N-1;i++){
+            b[i]=arr[i];
+        }
+        sort(b,b+N);
+        long long j=0,i=0;
+        while(i<N){
+            if(j>=N){
+                i++;
+                j=i;
+                continue;
+            }
+            if( arr[j] == b[i]){
+                ans+= abs(j-i);
+                i++; j=i;
+            }else{
+                j++;
+            }
+        }
+
+}
+
 int main(){
     int a[] = {2,2,5,5, 5, 6};
     int m = sizeof(a)/sizeof(a[0]);
