@@ -1,5 +1,7 @@
 #include<iostream>
 #include<queue>
+#include<vector>
+#include<algorithm>
 
 using namespace std;
 
@@ -45,6 +47,23 @@ void heapsort(int arr[],int n){
         swap(arr[0],arr[i]);
         heapify(arr,i,0);
     }
+}
+
+// Q.4 k largest element in array
+vector<int> kLargest(int arr[],int n,int k){
+    priority_queue<int,vector<int> ,greater<int>> minH;
+    vector<int> v;
+    for(int i=0;i<n;i++){
+            minH.push(arr[i]);
+            if(minH.size()>k)
+                minH.pop();    
+    }
+    while(minH.size()){
+        v.push_back(minH.top());
+        minH.pop();
+    }
+    reverse(v.begin(),v.end());
+    return v;
 }
 
 int main(){
