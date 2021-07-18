@@ -92,6 +92,45 @@ vector<int> kLargest(int arr[],int n,int k){
     return v;
 }
 
+// Q.8 kth Largest Subarray sum
+int kthLargestSum(int arr[],int n,int k){
+    int pre[n]; pre[0] = arr[0];
+    for(int i=1;i<n;i++){
+        pre[i] = arr[i]+pre[i-1];
+    }
+    priority_queue<int,vector<int>,greater<int>> minH;
+
+    for(int i=0;i<n;i++){
+        for(int j=i;j<n;j++){
+            int x = pre[j] - pre[i] + arr[i];
+            minH.push(x);
+            if(minH.size()>k){
+                minH.pop();
+            }
+        }
+    }
+    return minH.top();
+}
+
+// Q.14 Minimum cost of ropes
+long long minCost(long long arr[], long long n) {
+    long long cost=0;
+    priority_queue<long long,vector<long long>,greater<long long>> minH;
+    for(long long i=0;i<n;i++){
+        minH.push(arr[i]);
+    }
+    while(minH.size()>1){
+        long long first = minH.top();
+        minH.pop();
+        long long second = minH.top();
+        minH.pop();
+        long long sum = first+second;
+        cost+=sum;
+        minH.push(sum);
+    }
+    return cost;
+}
+
 int main(){
 
     // int arr[] = {3,5,7,1,0,6,2}; // n=7
@@ -102,6 +141,9 @@ int main(){
     // int arr[] = { 12, 1, 78, 90, 57, 89, 56 }; // n=7 k=3
     // vector<int> v = maxOfK(arr,7,3);
     // for(auto x:v) cout<<x<<endl;
-    
+
+    // int a[] = { 10, -10, 20, -40 };
+    // cout << kthLargestSum(a, 4, 6);
+
     return 0;
 }
