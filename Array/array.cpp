@@ -295,28 +295,53 @@ vector<vector<int>> merge(vector<vector<int>>& intervals) {
 }
 
 // Q.16 Count Inversions
-long long int inversionCount(long long arr[], long long N){
-        long long b[N]; long long ans=0;
-        for(long long i=0;i<N-1;i++){
-            b[i]=arr[i];
-        }
-        sort(b,b+N);
-        long long j=0,i=0;
-        while(i<N){
-            if(j>=N){
-                i++;
-                j=i;
-                continue;
-            }
-            if( arr[j] == b[i]){
-                ans+= abs(j-i);
-                i++; j=i;
-            }else{
-                j++;
-            }
-        }
+// long long int inversionCount(long long arr[], long long N){
+//         long long b[N]; long long ans=0;
+//         for(long long i=0;i<N-1;i++){
+//             b[i]=arr[i];
+//         }
+//         sort(b,b+N);
+//         long long j=0,i=0;
+//         while(i<N){
+//             if(j>=N){
+//                 i++;
+//                 j=i;
+//                 continue;
+//             }
+//             if( arr[j] == b[i]){
+//                 ans+= abs(j-i);
+//                 i++; j=i;
+//             }else{
+//                 j++;
+//             }
+//         }
 
-}
+// }
+
+// Q.22 Factorial of a large number
+    vector<int> factorial(int N){
+        
+        vector<int>v;
+        v.push_back(1);
+        if(N==0 || N==1){
+            return v;
+        }
+        int carry = 0;
+        for(int i=2;i<=N;i++){
+            for(int j=0;j<v.size();j++){
+                int prod = i*v[j] + carry;
+                v[j]=prod%10;
+                carry = prod/10;
+            }
+            while(carry){
+                v.push_back(carry%10);
+                carry=carry/10;
+            }
+        }
+        reverse(v.begin(),v.end());
+        return v;
+            
+    }
 
 int main(){
     int a[] = {2,2,5,5, 5, 6};
