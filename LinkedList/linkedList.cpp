@@ -383,6 +383,21 @@ Node* loopPoint(Node* head){
         return slow;
     }
 
+// Q.16 Check if LL is circular
+	bool isCircular(Node *head){
+		Node* temp = head;
+		if(head==NULL)
+			return true;
+		temp = temp->next;
+		while(temp){
+			if(temp==head)
+				return true;
+			temp=temp->next;
+		}
+		return false;
+		
+	}
+
 int main(){
 	//   Node* head = new Node(1);
     // head->next = new Node(9);
