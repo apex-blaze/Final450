@@ -370,6 +370,19 @@ Node* loopPoint(Node* head){
 			return -1;
 	}
 
+// Q.15 Middle element of LL
+	 Node* middleNode(Node* head) {
+        Node* slow=head,*fast = head;
+        if(head==NULL || head->next==NULL){
+            return head;
+        }
+        while(fast && fast->next){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        return slow;
+    }
+
 int main(){
 	//   Node* head = new Node(1);
     // head->next = new Node(9);
