@@ -318,6 +318,31 @@ vector<vector<int>> merge(vector<vector<int>>& intervals) {
 
 // }
 
+
+// Q.17 Best time to buy and sell stock
+    int maxProfit(vector<int>& prices) {
+        int maxProfit=0,minTill=INT_MAX;
+        for(int i=0;i<prices.size();i++){
+            minTill=min(minTill,prices[i]);
+            maxProfit=max(maxProfit,prices[i]-minTill);
+        }
+        return maxProfit;
+    }
+
+//Q.18 Find count of all pairs in array whose sum is k
+    int getPairsCount(int arr[], int n, int k) {
+        map<int,int>mp; int count=0;
+        for(int i=0;i<n;i++){
+            mp[arr[i]]++;
+        }
+        for(int i=0;i<n;i++){
+            count+=mp[k-arr[i]];
+            if(arr[i] == k-arr[i])
+                count--;
+        }
+        return count/2;
+    }
+
 // Q.22 Factorial of a large number
     vector<int> factorial(int N){
         
