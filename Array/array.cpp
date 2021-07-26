@@ -343,6 +343,41 @@ vector<vector<int>> merge(vector<vector<int>>& intervals) {
         return count/2;
     }
 
+// Q.19 Find common elements in 3 sorted arrays
+    vector <int> commonElements (int A[], int B[], int C[], int n1, int n2, int n3){
+        vector<int> ans;
+        int i,j,k; i=j=k=0; int p1,p2,p3; p1=p2=p3=INT_MIN;
+        while(i<n1 && j<n2 && k<n3){
+            while(A[i]==p1 && i<n1){
+                i++;
+            }
+            while(B[j]==p2 && j<n2){
+                j++;
+            }
+            while(C[k]==p3 && k<n3){
+                k++;
+            }
+            if(A[i]==B[j] && B[j] == C[k]){
+                ans.push_back(A[i]);
+                p1=A[i];
+                p2=B[j];
+                p3=C[k];
+                i++;j++;k++;
+            }
+            else if(A[i]<B[j]){ // A is smallest
+                p1=A[i];
+                i++;
+            }else if(B[j]<C[k]){ // B is smallest
+                p2=B[j];
+                j++;
+            }else{  // C is smallest
+                p3=C[k];
+                k++;
+            }
+        }
+        return ans;
+    }
+
 // Q.22 Factorial of a large number
     vector<int> factorial(int N){
         
