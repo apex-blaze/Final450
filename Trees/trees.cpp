@@ -18,15 +18,6 @@ struct Node{
 
 int height(Node*);
 
-void inorder(Node* root)
-{
-    if (root == NULL)
-        return;
-    inorder(root->left);
-    printf("%d ", root->data);
-    inorder(root->right);
-}
-
 void currentLevel(Node* root,int lvl){
 
     if(root==NULL)
@@ -139,15 +130,114 @@ void levelOrder(Node* root){
     }
 
 // Q.6 Inorder Traversal
-    
+
+// Method 1 - Using Recursion
+    void inOrder(Node* root){
+        if(root==NULL)
+            return;
+        
+        inOrder(root->left);
+        cout<<root->data<<" ";
+        inOrder(root->right);
+    }
+//Method 2 - Iterative Approach
+    void inorder(Node* root){
+        stack<Node*> s;
+        Node* temp = root;
+        
+        while(!s.empty() || temp){
+
+            if(temp){
+                s.push(temp);
+                temp = temp->left;
+            }else{
+                temp = s.top();
+                s.pop();
+                cout<<temp->data<<" ";
+                temp = temp->right;
+            }
+        }
+    }
+
+// Q.7 Preorder Traversal 
+    // Method 1 - Using Recursion
+    void preOrder(Node* root){
+        if(root==NULL)
+            return;
+        
+        cout<<root->data<<" ";
+        preOrder(root->left);
+        preOrder(root->right);
+    }
+
+    // Method 2 - Iterative Approach
+    void preorder(Node* root){
+        if(root == NULL)
+            return;
+        
+        stack<Node*> s;
+        s.push(root);
+        while(!s.empty()){
+
+            Node* temp = s.top(); 
+            s.pop();
+            cout<<temp->data<<" ";
+
+            if(temp->right)
+                s.push(temp->right);
+
+            if(temp->left)
+                s.push(temp->left);
+        }
+    }
+
+// Q.8 Post Order Traversal 
+    //Method 1 - Using Recursion
+    void postOrder(Node *root){
+        if(root == NULL)
+            return;
+        
+        postOrder(root->left);
+        postOrder(root->right);
+        cout<<root->data<<" ";
+    }
+
+    // Method 2 - Iterative Approach
+    void postorder(Node *root){
+        if(root == NULL)
+            return;
+        
+        stack<Node*> s;
+        s.push(root);
+        stack<int> out;
+
+        while(!s.empty()){
+            Node* temp = s.top();
+            s.pop();
+            out.push(temp->data);
+
+            if(temp->left)
+                s.push(temp->left);
+            if(temp->right)
+                s.push(temp->right);
+        }
+        while(!out.empty()){
+            cout<<out.top()<<" ";
+            out.pop();
+        }
+
+    }
 
 int main(){
-    // Node *root = new Node(1);
-    // root->left = new Node(2);
-    // root->right = new Node(3);
-    // root->left->left = new Node(4);
-    // root->left->right = new Node(5);
+    Node *root = new Node(1);
+    root->left = new Node(2);
+    root->right = new Node(3);
+    root->left->left = new Node(4);
+    root->left->right = new Node(5);
     // lvlOrder(root);
+    // inorder(root);
+    // preorder(root);
+    // postorder(root);
 
     // Node* tree = new Node(5);
     // tree->left = new Node(3);
