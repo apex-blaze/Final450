@@ -244,7 +244,7 @@ void levelOrder(Node* root){
             
             if(temp){
                 if(first){
-                    cout<<temp->data<<" ";
+                    v.push_back(temp->data);
                     first = false;
                 }
                 
@@ -257,15 +257,45 @@ void levelOrder(Node* root){
                 first = true;
             }
         }
-
+        return v;
     }
 
+// Q.10 Right View of BT
+    vector<int> rightView(Node *root){
+       vector<int> v;   
+       if(root == NULL)
+        return v;
+    
+       queue<Node*>q;
+       q.push(root); q.push(NULL);
+
+        while(!q.empty()){
+            Node* temp = q.front();
+            q.pop();
+
+            if(temp){
+                if(q.empty() || q.front() == NULL){
+                    v.push_back(temp->data);
+                }
+                if(temp->left)
+                    q.push(temp->left);
+                if(temp->right)
+                    q.push(temp->right);
+            }else if(!q.empty()){
+                q.push(NULL);
+            }
+        }
+        return v;
+    }
+
+    
+
 int main(){
-    Node *root = new Node(1);
-    root->left = new Node(2);
-    root->right = new Node(3);
-    root->left->left = new Node(4);
-    root->left->right = new Node(5);
+    // Node *root = new Node(1);
+    // root->left = new Node(2);
+    // root->right = new Node(3);
+    // root->left->left = new Node(4);
+    // root->left->right = new Node(5);
     // lvlOrder(root);
     // inorder(root);
     // preorder(root);
@@ -284,6 +314,31 @@ int main(){
  
     // printf("\nInorder of Miror tree: ");
     // inorder(tree);
-
+    // Node* p = new Node(1);
+    // p->left = new Node(2);
+    // p->right = new Node(3);
+    // p->right->left = new Node(4);
+    // p->right->left->left = new Node(5);
+    // p->right->left->right = new Node(6);
+    // p->right->left->right->left = new Node(7);
+    // vector<int> a;
+    // a = rightView(p);
+    Node* x = new Node(58);
+    x->left = new Node(31);
+    x->left->left = new Node(9);
+    x->left->left->left = new Node(5);
+    x->left->left->left->left = new Node(3);
+    x->left->right = new Node(56);
+    x->left->right->left = new Node(42);
+    x->left->right->right = new Node(57);
+    x->left->left->right = new Node(10);
+    x->right = new Node(68);
+    x->right->left = new Node(63);
+    x->right->left->right = new Node(67);
+    x->right->left->left = new Node(61);
+    vector<int> a;
+    a = rightView(x);
+    for(auto i:a)
+        cout<<i<<" ";
     return 0;
 }
