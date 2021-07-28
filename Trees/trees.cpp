@@ -228,6 +228,38 @@ void levelOrder(Node* root){
 
     }
 
+// Q.9 Left view of BT
+    vector<int> leftView(Node *root){
+        vector<int>v;
+        if(root == NULL)
+            return v;
+        queue<Node*> q;
+        q.push(root); q.push(NULL);
+        
+        bool first = true;
+        
+        while(!q.empty()){
+            Node* temp = q.front();
+            q.pop();
+            
+            if(temp){
+                if(first){
+                    cout<<temp->data<<" ";
+                    first = false;
+                }
+                
+                if(temp->left)
+                    q.push(temp->left);
+                if(temp->right)
+                    q.push(temp->right);
+            }else if(!q.empty()){
+                q.push(NULL);
+                first = true;
+            }
+        }
+
+    }
+
 int main(){
     Node *root = new Node(1);
     root->left = new Node(2);
