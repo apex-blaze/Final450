@@ -1,5 +1,6 @@
 #include<iostream>
 #include<climits>
+#include<vector>
 
 using namespace std;
 // Q.1 Coin Change Problem
@@ -87,6 +88,23 @@ bool subsetSum(int arr[],int n,int sum){
 		else
 		    return subsetSum(arr,N,sum/2);
 		
+    }
+
+// Q.14 Longest Common Subsequence (LCS)
+	vector<vector<int>> t = vector<vector<int>>(1001,vector<int>(1001,-1)) ;
+    
+    int lcs(int x, int y, string &s1, string &s2){
+        if(x==0 || y==0)
+            return 0;
+            
+        if(t[x][y]!=-1)
+            return t[x][y];
+        
+        if(s1[x-1] == s2[y-1]){
+            return t[x][y] = 1 + lcs(x-1,y-1,s1,s2);
+        } else{
+            return t[x][y] = max(lcs(x-1,y,s1,s2),lcs(x,y-1,s1,s2));
+        }
     }
 
 int main(){
