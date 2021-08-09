@@ -344,6 +344,45 @@ void levelOrder(Node* root){
         }
         return v;
     }
+
+// Q.13 ZigZag Travesal in BT
+    vector <int> zigZagTraversal(Node* root){
+	    vector<int>v;
+        if(root == NULL)
+            return v;
+
+        stack<Node*> curr;
+        stack<Node*> next;
+        bool leftToRight = true;
+        curr.push(root);
+
+        while(!curr.empty()){
+            Node* temp = curr.top();
+            curr.pop();
+
+            if(temp){
+                v.push_back(temp->data);
+
+                if(leftToRight){
+                    if(temp->left)
+                        next.push(temp->left);
+                    if(temp->right)
+                        next.push(temp->right);
+                }else{
+                    if(temp->right)
+                        next.push(temp->right);
+                    if(temp->left)
+                        next.push(temp->left);
+                }
+            }
+            if(curr.empty()){
+                leftToRight=!leftToRight;
+                swap(curr,next);
+            }
+        }
+        
+        return v;
+    }
     
 
 int main(){
