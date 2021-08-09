@@ -403,6 +403,30 @@ void levelOrder(Node* root){
         int ht=0;
         return solve(root,ht);
     }
+
+// LCA in BT
+    Node* solve2(Node* root,int &n1,int &n2){
+        if(root == NULL)
+            return root;
+        if(n1 == root->data || n2 == root->data)
+            return root;
+
+        Node* left = lca(root->left,n1,n2);
+        Node* right = lca(root->right,n1,n2);
+
+        if(left && right)
+            return root;
+        if(left)
+            return left;
+        if(right)
+            return right;
+        return NULL;
+    }
+
+    Node* lca(Node* root ,int n1 ,int n2 ){
+       
+       return solve2(root,n1,n2);
+    }
     
 
 int main(){
