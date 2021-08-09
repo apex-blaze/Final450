@@ -383,6 +383,26 @@ void levelOrder(Node* root){
         
         return v;
     }
+
+// Q.14 Check balanced tree
+    bool solve(Node* root,int &ht){
+        if(root == NULL){
+            return true;
+        }
+        
+        int lh=0,rh=0;
+        bool left = solve(root->left,lh);
+        bool right = solve(root->right,rh);
+
+        ht = max(lh,rh) + 1;
+
+        return left && right && abs(lh-rh)<=1 ;
+    }
+
+    bool isBalanced(Node *root){
+        int ht=0;
+        return solve(root,ht);
+    }
     
 
 int main(){
