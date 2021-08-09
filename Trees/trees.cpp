@@ -288,6 +288,34 @@ void levelOrder(Node* root){
         return v;
     }
 
+// Q. 11 Top view of BT  O(nlogn)
+    vector<int> topView(Node *root){
+        vector<int>v;
+        if(root == NULL)
+            return v;
+        
+        int hd=0; map<int,int> mp;
+        queue<pair<Node*,int>> q;
+        q.push({root,hd});
+        while(!q.empty()){
+            pair<Node*,int> temp = q.front();
+            q.pop();
+            hd = temp.second;
+            Node* node = temp.first;
+            if(mp.count(hd)==0){
+                mp[hd] = node->data;
+            }
+
+            if(node->left)
+                q.push({node->left,hd-1});
+            if(node->right)
+                q.push({node->right,hd+1});
+        }
+        for(auto x:mp){
+            v.push_back(x.second);
+        }
+        return v;
+    }
     
 
 int main(){
